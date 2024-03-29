@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "financial-datasets"
+version = "0.1.0"
+description = "Financial datasets for LLMs"
+authors = ["Virat Singh <virat@virat.ai>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "financial_datasets"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+langchain = "^0.1.13"
+openai = "^1.14.3"
+chromadb = "^0.4.24"
+tiktoken = "^0.6.0"
+anthropic = "^0.21.3"
+instructor = "^0.6.7"
+datasets = "^2.18.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
