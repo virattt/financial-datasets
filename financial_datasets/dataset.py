@@ -10,4 +10,4 @@ class QuestionAnswer(BaseModel):
 
 
 class Dataset(BaseModel):
-    questions_answers: List[QuestionAnswer]
+    question_answers: List[QuestionAnswer]
