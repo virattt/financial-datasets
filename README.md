@@ -12,10 +12,8 @@ such as 10-Ks, 10-Qs, and other financial reports.
 
 - Generate synthetic financial datasets using LLMs
 - Supports various SEC filings (10-Ks, 10-Qs, etc.)
-- Easy integration with Python projects
-- Customizable data generation options
 
-Example dataset:
+Example generated dataset:
 ```json
 [
   {
