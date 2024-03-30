@@ -1,7 +1,7 @@
 from typing import List
 
 from financial_datasets.dataset import Dataset
-from financial_datasets.models import ModelConfig
+from financial_datasets.model import ModelConfig
 
 
 class DatasetGenerator:
