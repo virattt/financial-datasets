@@ -24,8 +24,7 @@ class DatasetGenerator:
         self._client = patch(OpenAI())
         self._model_name = model_config.name
 
-    def generate(self, texts: List[str]) -> List[Dataset]:
-        max_questions = 10
+    def generate_from_texts(self, texts: List[str], max_questions=10) -> List[Dataset]:
         datasets = []
 
         for index, doc in enumerate(texts):
