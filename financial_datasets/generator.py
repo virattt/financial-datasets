@@ -1,10 +1,11 @@
 import time
 from typing import List
 
+from datasets import Dataset
 from instructor import patch
 from openai import OpenAI
 
-from financial_datasets.dataset import Dataset
+from financial_datasets.dataset import DatasetItem
 from financial_datasets.model import ModelConfig, ModelProvider
 
 system_prompt = """
@@ -24,8 +25,8 @@ class DatasetGenerator:
         self._client = patch(OpenAI())
         self._model_name = model_config.name
 
-    def generate_from_texts(self, texts: List[str], max_questions=10) -> List[Dataset]:
-        datasets = []
+    def generate_from_texts(self, texts: List[str], max_questions=3) -> Dataset:
+        items: List[DatasetItem] = []
 
         for index, doc in enumerate(texts):
             print(f"Generating questions for batch {index + 1}")
@@ -41,8 +42,8 @@ class DatasetGenerator:
                     ],
                 )
 
-                # Add the generated questions to our total list of questions
-                datasets.append(response)
+                # Add the generated items to our total list of questions
+                items.extend(response.items)
             except Exception as e:
                 print(f"Failed to generate questions for batch {index + 1}: {e}")
                 continue
@@ -50,4 +51,6 @@ class DatasetGenerator:
             # Sleep for 1 second to avoid overloading the LLM
             time.sleep(1)
 
-        return datasets
+        return Dataset(
+            items=items,
+        )

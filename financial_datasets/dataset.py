@@ -3,11 +3,11 @@ from typing import List
 from pydantic.main import BaseModel
 
 
-class QuestionAnswer(BaseModel):
+class DatasetItem(BaseModel):
     question: str
     answer: str
     context: str
 
 
 class Dataset(BaseModel):
-    question_answers: List[QuestionAnswer]
+    items: List[DatasetItem]
