@@ -15,20 +15,14 @@ load_dotenv()
 def test_create_generator() -> None:
     def create_openai_generator() -> DatasetGenerator:
         return DatasetGenerator(
-            model_config=ModelConfig(
-                provider=ModelProvider.OPEN_AI,
-                name="gpt-3.5-turbo-0125",
-                api_key="fake_key"
-            )
+            model="gpt-3.5-turbo-0125",
+            api_key="fake_key"
         )
 
     def create_anthropic_generator() -> DatasetGenerator:
         return DatasetGenerator(
-            model_config=ModelConfig(
-                provider=ModelProvider.ANTHROPIC,
-                name="claude-3-haiku-20240307",
-                api_key="fake_key"
-            )
+            model="claude-3-haiku-20240307",
+            api_key="fake_key"
         )
 
     # Creating OpenAI generator should not raise an exception
@@ -43,11 +37,8 @@ def test_create_generator() -> None:
 def test_generate_from_texts() -> None:
     def create_openai_generator() -> DatasetGenerator:
         return DatasetGenerator(
-            model_config=ModelConfig(
-                provider=ModelProvider.OPEN_AI,
-                name="gpt-3.5-turbo-0125",
-                api_key=os.environ.get('OPENAI_API_KEY')
-            )
+            model="gpt-3.5-turbo-0125",
+            api_key=os.environ.get('OPENAI_API_KEY')
         )
 
     # Create OpenAI generator
@@ -79,8 +70,7 @@ def test_generate_from_texts_with_mock():
     mock_client.chat.completions.create.return_value = mock_response
 
     # Create a DatasetGenerator instance with the mock client
-    model_config = ModelConfig(name="gpt-3.5-turbo", api_key="mock_api_key", provider=ModelProvider.OPEN_AI)
-    dataset_generator = DatasetGenerator(model_config)
+    dataset_generator = DatasetGenerator(model="gpt-3.5-turbo", api_key="mock_api_key")
     dataset_generator._client = mock_client
 
     # Define the input texts and max_questions
@@ -95,3 +85,9 @@ def test_generate_from_texts_with_mock():
 
     # Assert the number of times the OpenAI client's create method was called
     assert mock_client.chat.completions.create.call_count == len(texts)
+
+    texts = ...  # List of texts from SEC filing
+    generator = DatasetGenerator(model_config=(ModelConfig(name="gpt-3.5-turbo", api_key="mock_api_key", provider=ModelProvider.OPEN_AI)))
+    dataset = generator.generate_from_texts(texts, max_questions=100)
+
+    print(dataset)

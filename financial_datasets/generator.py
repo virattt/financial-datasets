@@ -6,7 +6,6 @@ from instructor import patch
 from openai import OpenAI
 
 from financial_datasets.dataset import DatasetItem, Dataset
-from financial_datasets.model import ModelConfig, ModelProvider
 
 system_prompt = """
 You are an expert at understanding and analyzing financial documents. 
@@ -28,12 +27,16 @@ Remember, your primary objective is to create accurate, grounded, and contextual
 
 
 class DatasetGenerator:
-    def __init__(self, model_config: ModelConfig):
-        if model_config.provider != ModelProvider.OPEN_AI:
-            raise NotImplementedError(f'Provider {model_config.provider} is not supported yet.')
+    def __init__(self, model: str, api_key: str):
+        # Ensure model begins with gpt-
+        if not model.startswith('gpt-'):
+            raise NotImplementedError(f'Model {model} is not supported yet.')
 
-        self._client = patch(OpenAI())
-        self._model_name = model_config.name
+        if not api_key:
+            raise ValueError("API key is required.")
+
+        self._model = model
+        self._client = patch(OpenAI(api_key=api_key))
 
     def generate_from_texts(self, texts: List[str], max_questions=10) -> Dataset:
         items: List[DatasetItem] = []
@@ -52,7 +55,7 @@ class DatasetGenerator:
 
                 # Generate questions
                 response = self._client.chat.completions.create(
-                    model=self._model_name,
+                    model=self._model,
                     response_model=Dataset,
                     messages=[
                         {"role": "system", "content": system_prompt},
