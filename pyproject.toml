@@ -17,6 +17,7 @@ anthropic = "^0.21.3"
 instructor = "^0.6.7"
 datasets = "^2.18.0"
 xmltodict = "^0.13.0"
+tqdm = "^4.66.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"

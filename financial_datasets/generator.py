@@ -1,5 +1,6 @@
 import time
 from typing import List
+from tqdm import tqdm
 
 from instructor import patch
 from openai import OpenAI
@@ -40,6 +41,8 @@ class DatasetGenerator:
         questions_per_text = max_questions // num_texts
         remaining_questions = max_questions % num_texts
 
+        progress_bar = tqdm(total=max_questions, desc="Generating questions", colour='green')
+
         for index, text in enumerate(texts):
             try:
                 # Determine the number of questions to generate for the current text
@@ -59,12 +62,18 @@ class DatasetGenerator:
 
                 # Add the generated items to our total list of questions
                 items.extend(response.items)
+
+                # Update the progress bar by the number of questions generated
+                progress_bar.update(len(response.items))
             except Exception as e:
                 print(f"Failed to generate questions for batch {index + 1}: {e}")
                 continue
 
             # Sleep for 1 second to avoid overloading the LLM
             time.sleep(1)
+
+        # Ensure the progress bar is closed
+        progress_bar.close()
 
         return Dataset(
             items=items,
