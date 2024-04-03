@@ -15,7 +15,9 @@ such as 10-Ks, 10-Qs, and other financial reports.
 - Easy integration with Python projects
 - Customizable data generation options
 
-**Example usage:**
+## Usage
+
+**Example code:**
 ```python
 import os
 from financial_datasets.generator import DatasetGenerator
@@ -83,21 +85,6 @@ If you want to install the library directly from the repository, follow these st
    ```
 
 4. You can now use the library in your Python projects.
-## Usage
-
-Here's a simple example of how to use the Financial Datasets library:
-
-```python
-import os
-from financial_datasets.generator import DatasetGenerator
-
-texts = ...  # List of texts from SEC filing
-generator = DatasetGenerator(
-    model="gpt-4-0125-preview",
-    api_key=os.environ["OPENAI_API_KEY"],
-)
-dataset = generator.generate_from_texts(texts, max_questions=100)
-```
 
 ## Contributing
 
