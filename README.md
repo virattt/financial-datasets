@@ -46,7 +46,7 @@ dataset = generator.generate_from_texts(texts, max_questions=100)
 ]
 ```
 
-A full end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/953304288c8cd257156842d8f8d1062d/intro-financial-datasets.ipynb).
+A full end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
 ## Installation
 
 ### Using pip
