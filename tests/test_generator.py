@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 
 from financial_datasets.dataset import Dataset, DatasetItem
 from financial_datasets.generator import DatasetGenerator
-from financial_datasets.model import ModelConfig, ModelProvider
 
 # Load the environment variables from .env file
 load_dotenv()
