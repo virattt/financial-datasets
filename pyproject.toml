@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "financial-datasets"
-version = "0.1.1"
+version = "0.1.2"
 description = "Financial datasets for LLMs"
 authors = ["Virat Singh <virat@virat.ai>"]
 license = "MIT"
