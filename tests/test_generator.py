@@ -85,9 +85,3 @@ def test_generate_from_texts_with_mock():
 
     # Assert the number of times the OpenAI client's create method was called
     assert mock_client.chat.completions.create.call_count == len(texts)
-
-    texts = ...  # List of texts from SEC filing
-    generator = DatasetGenerator(model_config=(ModelConfig(name="gpt-3.5-turbo", api_key="mock_api_key", provider=ModelProvider.OPEN_AI)))
-    dataset = generator.generate_from_texts(texts, max_questions=100)
-
-    print(dataset)
