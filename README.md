@@ -15,7 +15,7 @@ such as 10-Ks, 10-Qs, and other financial reports.
 - Easy integration with Python projects
 - Customizable data generation options
 
-Example usage:
+**Example usage:**
 ```python
 import os
 from financial_datasets.generator import DatasetGenerator
@@ -28,7 +28,7 @@ generator = DatasetGenerator(
 dataset = generator.generate_from_texts(texts, max_questions=100)
 ```
 
-Example dataset:
+**Example generated dataset:**
 ```json
 [
   {
