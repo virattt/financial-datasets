@@ -19,13 +19,12 @@ such as 10-Ks, 10-Qs, and other financial reports.
 
 **Example code:**
 ```python
-import os
 from financial_datasets.generator import DatasetGenerator
 
 texts = ...  # List of texts from SEC filing
 generator = DatasetGenerator(
    model="gpt-4-0125-preview",
-   api_key=os.environ["OPENAI_API_KEY"],
+   api_key="your-openai-api-key",
 )
 dataset = generator.generate_from_texts(texts, max_questions=100)
 ```
