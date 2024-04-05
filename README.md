@@ -24,7 +24,7 @@ from financial_datasets.generator import DatasetGenerator
 texts = ...  # List of texts from SEC filing
 generator = DatasetGenerator(
    model="gpt-4-0125-preview",
-   api_key="your-openai-api-key",
+   api_key="YOUR_OPENAI_API_KEY",
 )
 dataset = generator.generate_from_texts(texts, max_questions=100)
 ```
