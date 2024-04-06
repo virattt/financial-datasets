@@ -1,4 +1,4 @@
-# Financial Datasets
+# Financial Datasets 🧪
 
 Financial Datasets is an open-source Python library 
 that allows developers to create synthetic financial datasets
