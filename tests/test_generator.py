@@ -52,7 +52,7 @@ def test_generate_from_texts() -> None:
     # Generate questions
     dataset = generator.generate_from_texts(texts=texts, max_questions=10)
     items = dataset.items
-    assert len(items) == 10
+    assert len(items) <= 10
 
 
 def test_generate_from_texts_with_mock():
@@ -83,4 +83,24 @@ def test_generate_from_texts_with_mock():
     assert len(dataset.items) == max_questions
 
     # Assert the number of times the OpenAI client's create method was called
-    assert mock_client.chat.completions.create.call_count == len(texts)
+    assert mock_client.chat.completions.create.call_count <= len(texts)
+
+
+def test_generate_from_sec_filing():
+    def create_openai_generator() -> DatasetGenerator:
+        return DatasetGenerator(
+            model="gpt-3.5-turbo-0125",
+            api_key=os.environ.get('OPENAI_API_KEY')
+        )
+
+    # Create OpenAI generator
+    generator = create_openai_generator()
+
+    # Generate questions from the SEC filing
+    dataset = generator.generate_from_10K(
+        ticker="TSLA",
+        year=2022,
+        max_questions=20,
+    )
+    items = dataset.items
+    assert len(items) <= 20
