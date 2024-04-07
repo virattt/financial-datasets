@@ -1,11 +1,15 @@
+import re
 import time
 from typing import List
+
+from edgar import Company, set_identity
+from instructor import patch
+from langchain_text_splitters import TokenTextSplitter
+from openai import OpenAI
 from tqdm import tqdm
 
-from instructor import patch
-from openai import OpenAI
-
 from financial_datasets.dataset import DatasetItem, Dataset
+from financial_datasets.filings import filter_filings
 
 system_prompt = """
 You are an expert at understanding and analyzing financial documents. 
@@ -25,6 +29,8 @@ When generating questions and answers, adhere to the following guidelines:
 Remember, your primary objective is to create accurate, grounded, and contextually relevant question-answer pairs while strictly avoiding any fabrication or speculation.
 """
 
+default_sec_identity = "gary gary@financialdatasets.org"
+
 
 class DatasetGenerator:
     def __init__(self, model: str, api_key: str):
@@ -38,7 +44,18 @@ class DatasetGenerator:
         self._model = model
         self._client = patch(OpenAI(api_key=api_key))
 
-    def generate_from_texts(self, texts: List[str], max_questions=10) -> Dataset:
+    def generate_from_texts(
+        self,
+        texts: List[str],
+        max_questions=10,
+    ) -> Dataset:
+        """
+        Generate questions from a list of texts.
+
+        :param texts: List of texts to generate questions from.
+        :param max_questions: Maximum number of questions to generate.
+        :return: Dataset containing the generated questions.
+        """
         items: List[DatasetItem] = []
         num_texts = len(texts)
         questions_per_text = max_questions // num_texts
@@ -68,6 +85,11 @@ class DatasetGenerator:
 
                 # Update the progress bar by the number of questions generated
                 progress_bar.update(len(response.items))
+
+                # Stop generating questions if we have reached the maximum number of questions
+                if len(items) == max_questions:
+                    break
+                    
             except Exception as e:
                 print(f"Failed to generate questions for batch {index + 1}: {e}")
                 continue
@@ -81,3 +103,61 @@ class DatasetGenerator:
         return Dataset(
             items=items,
         )
+
+    def generate_from_10K(
+        self,
+        ticker: str,
+        year: int,
+        max_questions=10,
+        sec_identity=default_sec_identity,
+    ) -> Dataset:
+        """
+        Generate questions from a specific SEC filing for a given ticker.
+
+        :param ticker: The stock ticker symbol.
+        :param year: The year of the filing.
+        :param max_questions: Maximum number of questions to generate.
+        :param sec_identity: The identity to use when making requests to the SEC API.
+        :return: Dataset containing the generated questions.
+        """
+
+        # Tell the SEC who is making the request
+        set_identity(sec_identity)
+
+        if not ticker:
+            raise ValueError("Ticker symbol is required.")
+
+        if not year:
+            raise ValueError("Year is required.")
+
+        # Create a Company object
+        company = Company(ticker)
+
+        # Retrieve the SEC filing
+        filings = company.get_filings(form="10-K")
+
+        filing = filter_filings(filings, "10-K", year).obj()
+        items = [filing[item] for item in filing.items if len(filing[item]) > 200]  # Ignore short items like "Item 6. Reserved"
+
+        # Remove any newline characters
+        items = [item.replace("\n", " ") for item in items]
+
+        # Remove any sequence of 3 or more '-' or '.' characters
+        pattern1 = r'-{3,}|\.{3,}'
+        items = [re.sub(pattern1, '', item) for item in items]
+
+        # Remove any sequence of 2 or more '+' characters
+        pattern2 = r'\+{2,}'
+        items = [re.sub(pattern2, '', item) for item in items]
+
+        # Chunk Items to prevent exceeding the context window of models at the question generation step.
+        chunk_size = 8192
+        chunk_overlap = 128
+        token_splitter = TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        texts = []  # List to hold the chunked items
+        for item in items:
+            chunks = token_splitter.split_text(item)
+            texts.extend(chunks)
+
+        # Generate questions from the extracted text
+        return self.generate_from_texts(texts=texts, max_questions=max_questions)
