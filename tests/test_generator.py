@@ -86,7 +86,7 @@ def test_generate_from_texts_with_mock():
     assert mock_client.chat.completions.create.call_count <= len(texts)
 
 
-def test_generate_from_sec_filing():
+def test_generate_from_10K():
     def create_openai_generator() -> DatasetGenerator:
         return DatasetGenerator(
             model="gpt-3.5-turbo-0125",
