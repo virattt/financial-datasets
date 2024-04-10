@@ -89,7 +89,7 @@ class DatasetGenerator:
                 # Stop generating questions if we have reached the maximum number of questions
                 if len(items) == max_questions:
                     break
-                    
+
             except Exception as e:
                 print(f"Failed to generate questions for batch {index + 1}: {e}")
                 continue
@@ -103,6 +103,16 @@ class DatasetGenerator:
         return Dataset(
             items=items,
         )
+
+    def generate_from_pdf(self, url: str, max_questions=10) -> Dataset:
+        """
+        Generate questions from a PDF file.
+
+        :param url: The URL of the PDF file.
+        :param max_questions: Maximum number of questions to generate.
+        :return: Dataset containing the generated questions.
+        """
+        raise NotImplementedError("This method is not yet implemented.")
 
     def generate_from_10K(
         self,
