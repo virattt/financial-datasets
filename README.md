@@ -40,7 +40,10 @@ Most flexible option.  Generates dataset using a list of string `texts`. Colab c
 ```python
 from financial_datasets.generator import DatasetGenerator
 
-texts = ...  # List of texts from SEC filing
+# Your list of texts
+texts = ...  
+
+# Create dataset generator
 generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
 
 # Generate dataset from texts
@@ -57,7 +60,7 @@ Generate a dataset using a `ticker` and `year`.  Colab code example [here](https
 ```python
 from financial_datasets.generator import DatasetGenerator
 
-texts = ...  # List of texts from SEC filing
+# Create dataset generator
 generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
 
 # Generate dataset from 10-K
@@ -75,7 +78,7 @@ Generate a dataset using a PDF `url` only.  Colab code example [here](https://co
 ```python
 from financial_datasets.generator import DatasetGenerator
 
-texts = ...  # List of texts from SEC filing
+# Create dataset generator
 generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
 
 # Generate dataset from PDF url
