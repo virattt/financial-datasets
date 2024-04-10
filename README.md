@@ -35,7 +35,7 @@ such as 10-Ks, 10-Qs, and other financial reports.
 
 **Example #1 - generate from any texts:**
 
-Most flexible option.  Generates dataset using a list of string `texts`. An end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
+Most flexible option.  Generates dataset using a list of string `texts`. Colab code example [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
 
 ```python
 from financial_datasets.generator import DatasetGenerator
@@ -52,7 +52,7 @@ dataset = generator.generate_from_texts(
 
 **Example #2 - generate from 10-K:**
 
-You can generate a dataset using a `ticker` and `year`.  An end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/743872e143034987d20e6a6c7bb9d0a1/intro-financial-datasets.ipynb).
+You can generate a dataset using a `ticker` and `year`.  Colab code example [here](https://colab.research.google.com/gist/virattt/743872e143034987d20e6a6c7bb9d0a1/intro-financial-datasets.ipynb).
 
 ```python
 from financial_datasets.generator import DatasetGenerator
@@ -70,7 +70,7 @@ dataset = generator.generate_from_10K(
 
 **Example #3 - generate from PDF:**
 
-You can generate a dataset using a PDF `url` only.  An end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/b04442ee7c6c0d0bb3c9371af2283a20/intro-financial-datasets.ipynb).
+You can generate a dataset using a PDF `url` only.  Colab code example [here](https://colab.research.google.com/gist/virattt/b04442ee7c6c0d0bb3c9371af2283a20/intro-financial-datasets.ipynb).
 
 ```python
 from financial_datasets.generator import DatasetGenerator
