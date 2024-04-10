@@ -1,7 +1,7 @@
 # Financial Datasets 🧪
 
 Financial Datasets is an open-source Python library 
-that allows developers to create synthetic financial datasets
+that allows developers to create synthetic question & answer financial datasets
 using Large Language Models (LLMs). With this library,
 you can generate realistic financial datasets based on SEC filings
 such as 10-Ks, 10-Qs, and other financial reports.
@@ -10,7 +10,7 @@ such as 10-Ks, 10-Qs, and other financial reports.
 
 ## Features
 
-- Generate synthetic question & answer financial datasets using LLMs
+- Generate synthetic financial datasets using LLMs
 - Supports various SEC filings (10-Ks, 10-Qs, etc.)
 - Easy integration with Python projects
 - Customizable data generation options
