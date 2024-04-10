@@ -1,7 +1,10 @@
 import re
 import time
+from io import BytesIO
 from typing import List
 
+import requests
+from PyPDF2 import PdfReader
 from edgar import Company, set_identity
 from instructor import patch
 from langchain_text_splitters import TokenTextSplitter
@@ -104,15 +107,47 @@ class DatasetGenerator:
             items=items,
         )
 
-    def generate_from_pdf(self, url: str, max_questions=10) -> Dataset:
+    def generate_from_pdf(
+        self,
+        url: str,
+        max_questions=10,
+        **kwargs,
+    ) -> Dataset:
         """
         Generate questions from a PDF file.
 
         :param url: The URL of the PDF file.
         :param max_questions: Maximum number of questions to generate.
+        :param kwargs: Additional arguments like chunk_size, chunk_overlap, etc.
         :return: Dataset containing the generated questions.
         """
-        raise NotImplementedError("This method is not yet implemented.")
+        # Download the PDF file
+        response = requests.get(url)
+        pdf_file = BytesIO(response.content)
+
+        # Extract text from the PDF file
+        reader = PdfReader(pdf_file)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+
+        # Remove any newline characters
+        text = text.replace("\n", " ")
+
+        # Chunk the text to prevent exceeding the context window of models at the question generation step.
+        chunk_size = kwargs.get("chunk_size", 1024)
+        chunk_overlap = kwargs.get("chunk_overlap", 128)
+
+        # Split by tokens
+        token_splitter = TokenTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+        )
+
+        # Chunk the text
+        texts = token_splitter.split_text(text)
+
+        return self.generate_from_texts(texts=texts, max_questions=max_questions)
 
     def generate_from_10K(
         self,
