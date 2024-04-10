@@ -116,7 +116,7 @@ def test_generate_from_pdf():
     # Create OpenAI generator
     generator = create_openai_generator()
 
-    # Generate questions from the SEC filing
+    # Generate questions from Berkshire's 2023 letter
     dataset = generator.generate_from_pdf(
         url="https://www.berkshirehathaway.com/letters/2023ltr.pdf",
         max_questions=10,
