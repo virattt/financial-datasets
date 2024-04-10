@@ -17,18 +17,6 @@ such as 10-Ks, 10-Qs, and other financial reports.
 
 ## Usage
 
-**Example code:**
-```python
-from financial_datasets.generator import DatasetGenerator
-
-texts = ...  # List of texts from SEC filing
-generator = DatasetGenerator(
-   model="gpt-4-0125-preview",
-   api_key="YOUR_OPENAI_API_KEY",
-)
-dataset = generator.generate_from_texts(texts, max_questions=100)
-```
-
 **Example generated dataset:**
 ```json
 [
@@ -45,7 +33,58 @@ dataset = generator.generate_from_texts(texts, max_questions=100)
 ]
 ```
 
-A full end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
+**Example #1 - generate from any texts:**
+
+Most flexible option.  Generates dataset using a list of string `texts`. An end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
+
+```python
+from financial_datasets.generator import DatasetGenerator
+
+texts = ...  # List of texts from SEC filing
+generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
+
+# Generate dataset from texts
+dataset = generator.generate_from_texts(
+   texts=texts, 
+   max_questions=100,
+)
+```
+
+**Example #2 - generate from 10-K:**
+
+You can generate a dataset using a `ticker` and `year`.  An end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/743872e143034987d20e6a6c7bb9d0a1/intro-financial-datasets.ipynb).
+
+```python
+from financial_datasets.generator import DatasetGenerator
+
+texts = ...  # List of texts from SEC filing
+generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
+
+# Generate dataset from 10-K
+dataset = generator.generate_from_10K(
+   ticker="AAPL",
+   year=2023,
+   max_questions=100,
+)
+```
+
+**Example #3 - generate from PDF:**
+
+You can generate a dataset using a PDF `url` only.  An end-to-end code example can be found [here](https://colab.research.google.com/gist/virattt/b04442ee7c6c0d0bb3c9371af2283a20/intro-financial-datasets.ipynb).
+
+```python
+from financial_datasets.generator import DatasetGenerator
+
+texts = ...  # List of texts from SEC filing
+generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
+
+# Generate dataset from PDF url
+dataset = generator.generate_from_pdf(
+   url="https://www.berkshirehathaway.com/letters/2023ltr.pdf",
+   max_questions=100,
+)
+```
+
 ## Installation
 
 ### Using pip
