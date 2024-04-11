@@ -8,13 +8,6 @@ you can easily generate realistic financial datasets from a 10-K,
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/virattt?style=social)](https://twitter.com/virattt)
 
-## Features
-
-- Generate synthetic financial datasets using LLMs
-- Supports various SEC filings (10-Ks, 10-Qs, etc.)
-- Easy integration with Python projects
-- Customizable data generation options
-
 ## Usage
 
 **Example generated dataset:**
