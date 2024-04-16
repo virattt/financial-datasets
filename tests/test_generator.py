@@ -116,13 +116,14 @@ def test_generate_from_10Q():
     # Create OpenAI generator
     generator = create_openai_generator()
 
-    # Generate questions from the SEC filing
+    # Generate questions from Costco's 2024 Q1 10-Q filing
     dataset = generator.generate_from_10Q(
-        ticker="TSLA",
-        year=2022,
-        quarter=2,
+        ticker="COST",
+        year=2024,
+        quarter=1,
         max_questions=10,
     )
+
     items = dataset.items
     assert len(items) <= 10
 
