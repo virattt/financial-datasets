@@ -106,6 +106,27 @@ def test_generate_from_10K():
     assert len(items) <= 20
 
 
+def test_generate_from_10Q():
+    def create_openai_generator() -> DatasetGenerator:
+        return DatasetGenerator(
+            model="gpt-3.5-turbo-0125",
+            api_key=os.environ.get('OPENAI_API_KEY')
+        )
+
+    # Create OpenAI generator
+    generator = create_openai_generator()
+
+    # Generate questions from the SEC filing
+    dataset = generator.generate_from_10Q(
+        ticker="TSLA",
+        year=2022,
+        quarter=2,
+        max_questions=10,
+    )
+    items = dataset.items
+    assert len(items) <= 10
+
+
 def test_generate_from_pdf():
     def create_openai_generator() -> DatasetGenerator:
         return DatasetGenerator(
