@@ -1,9 +1,7 @@
 from datetime import datetime
 
-from edgar._companies import EntityFilings, EntityFiling
 
-
-def filter_filings(filings: EntityFilings, form: str, year: int) -> EntityFiling:
+def filter_filings(filings, form: str, year: int):
     """
     Filter filings by form and year.
 
