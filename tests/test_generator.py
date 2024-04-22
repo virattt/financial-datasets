@@ -99,11 +99,11 @@ def test_generate_from_10K():
     # Generate questions from the SEC filing
     dataset = generator.generate_from_10K(
         ticker="TSLA",
-        year=2022,
-        max_questions=20,
+        year=2023,
+        max_questions=10,
     )
     items = dataset.items
-    assert len(items) <= 20
+    assert len(items) <= 10
 
 
 def test_generate_from_10Q():
