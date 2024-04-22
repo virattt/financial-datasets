@@ -1,8 +1,11 @@
 import re
+from typing import List
 
 from edgar import Company, set_identity, get_filings
 
 from financial_datasets.filings import filter_filings
+
+default_sec_identity = "gary gary@financialdatasets.org"
 
 
 class FilingParser:
@@ -11,8 +14,15 @@ class FilingParser:
         self,
         ticker: str,
         year: int,
-        sec_identity: str,
-    ):
+        sec_identity=default_sec_identity,
+    ) -> List[str]:
+        """
+        Get the items from a 10-K filing for a given company and year.
+        :param ticker: The stock ticker symbol.
+        :param year: The year of the filing.
+        :param sec_identity: The identity to use when making requests to the SEC API.
+        :return: A list of items from the 10-K filing.
+        """
         # Tell the SEC who is making the request
         set_identity(sec_identity)
 
@@ -31,8 +41,8 @@ class FilingParser:
         filing = filter_filings(filings, "10-K", year).obj()
         items = [filing[item] for item in filing.items if len(filing[item]) > 200]  # Ignore short items like "Item 6. Reserved"
 
-        # Remove any newline characters
-        items = [item.replace("\n", " ") for item in items]
+        # Remove any newline characters and trim outer whitespace
+        items = [item.replace("\n", " ").strip() for item in items]
 
         # Remove any sequence of 3 or more '-' or '.' characters
         pattern1 = r'-{3,}|\.{3,}'
@@ -49,8 +59,16 @@ class FilingParser:
         ticker: str,
         year: int,
         quarter: int,
-        sec_identity: str,
-    ):
+        sec_identity=default_sec_identity,
+    ) -> List[str]:
+        """
+        Get the items from a 10-Q filing for a given company, year, and quarter.
+        :param ticker: The stock ticker symbol.
+        :param year: The year of the filing.
+        :param quarter: The quarter of the filing.
+        :param sec_identity: The identity to use when making requests to the SEC API.
+        :return: A list of items from the 10-Q filing.
+        """
         # Tell the SEC who is making the request
         set_identity(sec_identity)
 
@@ -82,8 +100,8 @@ class FilingParser:
         # Extract the items from the filing
         items = [company_filing[item] for item in company_filing.items if len(company_filing[item]) > 200]  # Ignore short items like "Item 6. Reserved"
 
-        # Remove any newline characters
-        items = [item.replace("\n", " ") for item in items]
+        # Remove any newline characters and trim outer whitespace
+        items = [item.replace("\n", " ").strip() for item in items]
 
         # Remove any sequence of 3 or more '-' or '.' characters
         pattern1 = r'-{3,}|\.{3,}'
