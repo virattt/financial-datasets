@@ -1,9 +1,9 @@
 # Financial Datasets 🧪
 
-Financial Datasets is an open-source Python library 
+Financial Datasets is an open-source Python library
 that lets you create question & answer financial datasets
 using Large Language Models (LLMs). With this library,
-you can easily generate realistic financial datasets from a 10-K, 
+you can easily generate realistic financial datasets from a 10-K,
 10-Q, PDF, and other financial texts.
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/virattt?style=social)](https://twitter.com/virattt)
@@ -11,6 +11,7 @@ you can easily generate realistic financial datasets from a 10-K,
 ## Usage
 
 **Example generated dataset:**
+
 ```json
 [
   {
@@ -28,45 +29,29 @@ you can easily generate realistic financial datasets from a 10-K,
 
 **Example #1 - generate from any text**
 
-Most flexible option.  Generates dataset using a list of string `texts`. Colab code example [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
+Most flexible option. Generates dataset using a list of string `texts`. Colab code
+example [here](https://colab.research.google.com/gist/virattt/f9b5a0ae82cc0caab57df5dedc2927c9/intro-financial-datasets.ipynb).
 
 ```python
 from financial_datasets.generator import DatasetGenerator
 
 # Your list of texts
-texts = ...  
+texts = ...
 
 # Create dataset generator
 generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
 
 # Generate dataset from texts
 dataset = generator.generate_from_texts(
-   texts=texts, 
-   max_questions=100,
+    texts=texts,
+    max_questions=100,
 )
 ```
 
-**Example #2 - generate from 10-K**
+**Example #2 - generate from PDF**
 
-Generate a dataset using a `ticker` and `year`.  Colab code example [here](https://colab.research.google.com/gist/virattt/743872e143034987d20e6a6c7bb9d0a1/intro-financial-datasets.ipynb).
-
-```python
-from financial_datasets.generator import DatasetGenerator
-
-# Create dataset generator
-generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
-
-# Generate dataset from 10-K
-dataset = generator.generate_from_10K(
-   ticker="AAPL",
-   year=2023,
-   max_questions=100,
-)
-```
-
-**Example #3 - generate from PDF**
-
-Generate a dataset using a PDF `url` only.  Colab code example [here](https://colab.research.google.com/gist/virattt/b04442ee7c6c0d0bb3c9371af2283a20/intro-financial-datasets.ipynb).
+Generate a dataset using a PDF `url` only. Colab code
+example [here](https://colab.research.google.com/gist/virattt/b04442ee7c6c0d0bb3c9371af2283a20/intro-financial-datasets.ipynb).
 
 ```python
 from financial_datasets.generator import DatasetGenerator
@@ -76,8 +61,27 @@ generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-ke
 
 # Generate dataset from PDF url
 dataset = generator.generate_from_pdf(
-   url="https://www.berkshirehathaway.com/letters/2023ltr.pdf",
-   max_questions=100,
+    url="https://www.berkshirehathaway.com/letters/2023ltr.pdf",
+    max_questions=100,
+)
+```
+
+**Example #3 - generate from 10-K**
+
+Generate a dataset using a `ticker` and `year`. Colab code
+example [here](https://colab.research.google.com/gist/virattt/743872e143034987d20e6a6c7bb9d0a1/intro-financial-datasets.ipynb).
+
+```python
+from financial_datasets.generator import DatasetGenerator
+
+# Create dataset generator
+generator = DatasetGenerator(model="gpt-4-0125-preview", api_key="your-openai-key")
+
+# Generate dataset from 10-K
+dataset = generator.generate_from_10K(
+    ticker="AAPL",
+    year=2023,
+    max_questions=100,
 )
 ```
 
@@ -112,7 +116,7 @@ If you want to install the library directly from the repository, follow these st
    ```
    cd financial-datasets
    ```
-   
+
 3. Install the dependencies using Poetry:
    ```
    poetry install
@@ -122,7 +126,7 @@ If you want to install the library directly from the repository, follow these st
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or have suggestions for improvements, 
+Contributions are welcome! If you find any issues or have suggestions for improvements,
 please open an issue or submit a pull request.
 
 ## License
