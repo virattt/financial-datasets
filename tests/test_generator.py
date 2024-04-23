@@ -100,7 +100,7 @@ def test_generate_from_10K():
     dataset = generator.generate_from_10K(
         ticker="TSLA",
         year=2023,
-        max_questions=10,
+        max_questions=5,
     )
     items = dataset.items
     assert len(items) <= 10
