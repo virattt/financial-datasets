@@ -32,18 +32,25 @@ class DatasetGenerator:
         self,
         texts: List[str],
         max_questions=10,
+        **kwargs,
     ) -> Dataset:
         """
         Generate questions from a list of texts.
 
         :param texts: List of texts to generate questions from.
         :param max_questions: Maximum number of questions to generate.
+
         :return: Dataset containing the generated questions.
         """
         items: List[DatasetItem] = []
         num_texts = len(texts)
+        system_prompt = kwargs.get("system_prompt", default_prompt)
+
+        # Determine how many questions to generate per text
         questions_per_text = max_questions // num_texts
-        remaining_questions = max_questions % num_texts
+
+        # Keep track of remaining questions to generate
+        num_remaining_questions = max_questions % num_texts
 
         progress_bar = tqdm(total=max_questions, desc="Generating questions", colour='green')
 
@@ -51,7 +58,7 @@ class DatasetGenerator:
             try:
                 # Determine the number of questions to generate for the current text
                 current_max_questions = questions_per_text
-                if index < remaining_questions:
+                if index < num_remaining_questions:
                     current_max_questions += 1
 
                 # Generate questions
@@ -59,7 +66,7 @@ class DatasetGenerator:
                     model=self._model,
                     response_model=Dataset,
                     messages=[
-                        {"role": "system", "content": default_prompt},
+                        {"role": "system", "content": system_prompt},
                         {"role": "user", "content": f"Generate {current_max_questions} questions for the following block of text: {text}"}
                     ],
                 )
@@ -128,7 +135,7 @@ class DatasetGenerator:
         # Chunk the text
         texts = token_splitter.split_text(text)
 
-        return self.generate_from_texts(texts=texts, max_questions=max_questions)
+        return self.generate_from_texts(texts=texts, max_questions=max_questions, kwargs=kwargs)
 
     def generate_from_10K(
         self,
@@ -136,6 +143,7 @@ class DatasetGenerator:
         year: int,
         max_questions=10,
         sec_identity=default_sec_identity,
+        **kwargs,
     ) -> Dataset:
         """
         Generate questions from a specific SEC filing for a given ticker.
@@ -160,7 +168,7 @@ class DatasetGenerator:
             texts.extend(chunks)
 
         # Generate questions from the extracted text
-        return self.generate_from_texts(texts=texts, max_questions=max_questions)
+        return self.generate_from_texts(texts=texts, max_questions=max_questions, kwargs=kwargs)
 
     def generate_from_10Q(
         self,
@@ -169,6 +177,7 @@ class DatasetGenerator:
         quarter: int,
         max_questions=10,
         sec_identity=default_sec_identity,
+        **kwargs,
     ) -> Dataset:
         """
         Generate questions from a specific SEC filing for a given ticker.
@@ -194,4 +203,4 @@ class DatasetGenerator:
             texts.extend(chunks)
 
         # Generate questions from the extracted text
-        return self.generate_from_texts(texts=texts, max_questions=max_questions)
+        return self.generate_from_texts(texts=texts, max_questions=max_questions, kwargs=kwargs)
