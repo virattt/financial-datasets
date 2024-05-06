@@ -152,11 +152,16 @@ class DatasetGenerator:
         :param year: The year of the filing.
         :param max_questions: Maximum number of questions to generate.
         :param sec_identity: The identity to use when making requests to the SEC API.
+
         :return: Dataset containing the generated questions.
         """
 
+        # Get optional item names from kwargs
+        item_names = kwargs.get("item_names", [])
+
+        # Get the items from the 10-K
         filing_parser = FilingParser()
-        items = filing_parser.get_10K_items(ticker, year, sec_identity)
+        items = filing_parser.get_10K_items(ticker, year, item_names, sec_identity)
 
         # Chunk Items to prevent exceeding the context window of models at the question generation step.
         chunk_size = 8192
@@ -187,11 +192,16 @@ class DatasetGenerator:
         :param quarter: The quarter of the filing.
         :param max_questions: Maximum number of questions to generate.
         :param sec_identity: The identity to use when making requests to the SEC API.
+
         :return: Dataset containing the generated questions.
         """
 
+        # Get optional item names from kwargs
+        item_names = kwargs.get("item_names", [])
+
+        # Get the items from the 10-Q
         filing_parser = FilingParser()
-        items = filing_parser.get_10Q_items(ticker, year, quarter, sec_identity)
+        items = filing_parser.get_10Q_items(ticker, year, quarter, item_names, sec_identity)
 
         # Chunk Items to prevent exceeding the context window of models at the question generation step.
         chunk_size = 8192
