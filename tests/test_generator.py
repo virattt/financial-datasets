@@ -103,7 +103,7 @@ def test_generate_from_10K():
         max_questions=5,
     )
     items = dataset.items
-    assert len(items) <= 10
+    assert len(items) <= 5
 
 
 def test_generate_from_10Q():
@@ -121,11 +121,11 @@ def test_generate_from_10Q():
         ticker="COST",
         year=2024,
         quarter=1,
-        max_questions=10,
+        max_questions=5,
     )
 
     items = dataset.items
-    assert len(items) <= 10
+    assert len(items) <= 5
 
 
 def test_generate_from_pdf():
@@ -141,7 +141,7 @@ def test_generate_from_pdf():
     # Generate questions from Berkshire's 2023 letter
     dataset = generator.generate_from_pdf(
         url="https://www.berkshirehathaway.com/letters/2023ltr.pdf",
-        max_questions=10,
+        max_questions=5,
     )
     items = dataset.items
-    assert len(items) <= 10
+    assert len(items) <= 5
