@@ -78,7 +78,7 @@ class DatasetGenerator:
                 progress_bar.update(len(response.items))
 
                 # Stop generating questions if we have reached the maximum number of questions
-                if len(items) == max_questions:
+                if len(items) >= max_questions:
                     break
 
             except Exception as e:
@@ -164,8 +164,8 @@ class DatasetGenerator:
         items = filing_parser.get_10K_items(ticker, year, item_names, sec_identity)
 
         # Chunk Items to prevent exceeding the context window of models at the question generation step.
-        chunk_size = 8192
-        chunk_overlap = 128
+        chunk_size = 1024
+        chunk_overlap = 100
         token_splitter = TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = []  # List to hold the chunked items
         for item in items:
@@ -204,8 +204,8 @@ class DatasetGenerator:
         items = filing_parser.get_10Q_items(ticker, year, quarter, item_names, sec_identity)
 
         # Chunk Items to prevent exceeding the context window of models at the question generation step.
-        chunk_size = 8192
-        chunk_overlap = 128
+        chunk_size = 1024
+        chunk_overlap = 100
         token_splitter = TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = []  # List to hold the chunked items
         for item in items:
