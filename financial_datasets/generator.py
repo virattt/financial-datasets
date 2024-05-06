@@ -92,7 +92,7 @@ class DatasetGenerator:
         progress_bar.close()
 
         return Dataset(
-            items=items,
+            items=items[:max_questions],
         )
 
     def generate_from_pdf(
