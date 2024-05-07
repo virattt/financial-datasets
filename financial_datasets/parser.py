@@ -1,5 +1,5 @@
 import re
-from typing import List, Optional
+from typing import List
 
 from edgar import Company, set_identity, get_filings
 
