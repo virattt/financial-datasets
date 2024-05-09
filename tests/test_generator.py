@@ -90,7 +90,7 @@ def test_generate_from_10K():
     def create_openai_generator() -> DatasetGenerator:
         return DatasetGenerator(
             model="gpt-3.5-turbo-0125",
-            api_key=os.environ.get('OPENAI_API_KEY')
+            api_key=os.environ.get('OPENAI_API_KEY'),
         )
 
     # Create OpenAI generator
@@ -101,10 +101,9 @@ def test_generate_from_10K():
         ticker="TSLA",
         year=2023,
         max_questions=10,
-        item_names=["Item 1", "Item 7"]
+        item_names=["Item 1", "Item 7"],
     )
-    items = dataset.items
-    assert len(items) <= 5
+    assert len(dataset.items) <= 5
 
 
 def test_generate_from_10Q():
@@ -125,8 +124,7 @@ def test_generate_from_10Q():
         max_questions=5,
     )
 
-    items = dataset.items
-    assert len(items) <= 5
+    assert len(dataset.items) <= 5
 
 
 def test_generate_from_pdf():
@@ -144,5 +142,4 @@ def test_generate_from_pdf():
         url="https://www.berkshirehathaway.com/letters/2023ltr.pdf",
         max_questions=5,
     )
-    items = dataset.items
-    assert len(items) <= 5
+    assert len(dataset.items) <= 5
