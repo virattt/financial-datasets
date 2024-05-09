@@ -42,11 +42,12 @@ class DatasetGenerator:
 
         :return: Dataset containing the generated questions.
         """
-        items: List[DatasetItem] = []
-        num_texts = len(texts)
+
+        # Get optional system prompt from kwargs
         system_prompt = kwargs.get("system_prompt", default_prompt)
 
         # Determine how many questions to generate per text
+        num_texts = len(texts)
         questions_per_text = max_questions // num_texts
 
         # Keep track of remaining questions to generate
@@ -54,6 +55,8 @@ class DatasetGenerator:
 
         progress_bar = tqdm(total=max_questions, desc="Generating questions", colour='green')
 
+        # Generate dataset items
+        items: List[DatasetItem] = []
         for index, text in enumerate(texts):
             try:
                 # Determine the number of questions to generate for the current text
