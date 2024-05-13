@@ -1,17 +1,18 @@
+import json
 import time
 from io import BytesIO
 from typing import List
 
 import requests
 from PyPDF2 import PdfReader
-from instructor import patch
 from langchain_text_splitters import TokenTextSplitter
-from openai import OpenAI
 from tqdm import tqdm
 
 from financial_datasets.dataset import DatasetItem, Dataset
+from financial_datasets.llm.openai import chat_completion_request
 from financial_datasets.parser import FilingParser
 from financial_datasets.prompts import default_prompt
+from financial_datasets.tools import generate_dataset
 
 default_sec_identity = "gary gary@financialdatasets.org"
 
@@ -26,7 +27,6 @@ class DatasetGenerator:
             raise ValueError("API key is required.")
 
         self._model = model
-        self._client = patch(OpenAI(api_key=api_key))
 
     def generate_from_texts(
         self,
@@ -65,24 +65,37 @@ class DatasetGenerator:
                     current_max_questions += 1
 
                 # Generate questions
-                response = self._client.chat.completions.create(
+                response = chat_completion_request(
                     model=self._model,
-                    response_model=Dataset,
+                    tools=generate_dataset(),
+                    tool_choice={"type": "function", "function": {"name": "generate_dataset"}},
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": f"Generate {current_max_questions} questions for the following block of text: {text}"}
                     ],
                 )
 
-                # Add the generated items to our total list of questions
-                items.extend(response.items)
+                tool_call = response.choices[0].message.tool_calls[0]
+                if tool_call:
+                    function_params = json.loads(tool_call.function.arguments)
+                    dataset_items = function_params.get("dataset_items")
 
-                # Update the progress bar by the number of questions generated
-                progress_bar.update(len(response.items))
+                    if not dataset_items:
+                        # Skip to the next text if no questions were generated
+                        continue
 
-                # Stop generating questions if we have reached the maximum number of questions
-                if len(items) >= max_questions:
-                    break
+                    # Convert the dataset_items (list of dicts) to list of DatasetItem
+                    dataset_items = [DatasetItem(**item) for item in dataset_items]
+
+                    # Add the generated items to our total list of questions
+                    items.extend(dataset_items)
+
+                    # Update the progress bar by the number of questions generated
+                    progress_bar.update(len(dataset_items))
+
+                    # Stop generating questions if we have reached the maximum number of questions
+                    if len(items) >= max_questions:
+                        break
 
             except Exception as e:
                 print(f"Failed to generate questions for batch {index + 1}: {e}")
