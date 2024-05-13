@@ -110,7 +110,7 @@ If you want to install the library directly from the repository, follow these st
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/financial-datasets.git
+   git clone https://github.com/virattt/financial-datasets.git
    ```
 
 2. Navigate to the project directory:
