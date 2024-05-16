@@ -82,7 +82,7 @@ dataset = generator.generate_from_10K(
     ticker="AAPL",
     year=2023,
     max_questions=100,
-    item_names=["Item 1A", "Item 7"],  # optional
+    item_names=["Item 1A", "Item 7"],  # optional - specify Item names to use
 )
 ```
 
