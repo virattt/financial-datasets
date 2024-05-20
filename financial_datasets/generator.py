@@ -53,6 +53,10 @@ class DatasetGenerator:
         # Keep track of remaining questions to generate
         num_remaining_questions = max_questions % num_texts
 
+        # Keep track of usage
+        input_tokens = 0
+        output_tokens = 0
+
         progress_bar = tqdm(total=max_questions, desc="Generating questions", colour='green')
 
         # Generate dataset items
@@ -75,6 +79,12 @@ class DatasetGenerator:
                     ],
                 )
 
+                # Update usage
+                usage = response.usage
+                input_tokens += usage.prompt_tokens
+                output_tokens += usage.completion_tokens
+
+                # Parse tool call
                 tool_call = response.choices[0].message.tool_calls[0]
                 if tool_call:
                     function_params = json.loads(tool_call.function.arguments)
