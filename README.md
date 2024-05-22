@@ -39,7 +39,7 @@ from financial_datasets.generator import DatasetGenerator
 texts = ...
 
 # Create dataset generator
-generator = DatasetGenerator(model="gpt-4o", api_key="your-openai-key")
+generator = DatasetGenerator(model="gpt-4-turbo", api_key="your-openai-key")
 
 # Generate dataset from texts
 dataset = generator.generate_from_texts(
@@ -57,7 +57,7 @@ example [here](https://colab.research.google.com/gist/virattt/b04442ee7c6c0d0bb3
 from financial_datasets.generator import DatasetGenerator
 
 # Create dataset generator
-generator = DatasetGenerator(model="gpt-4o", api_key="your-openai-key")
+generator = DatasetGenerator(model="gpt-4-turbo", api_key="your-openai-key")
 
 # Generate dataset from PDF url
 dataset = generator.generate_from_pdf(
@@ -75,7 +75,7 @@ example [here](https://colab.research.google.com/gist/virattt/743872e143034987d2
 from financial_datasets.generator import DatasetGenerator
 
 # Create dataset generator
-generator = DatasetGenerator(model="gpt-4o", api_key="your-openai-key")
+generator = DatasetGenerator(model="gpt-4-turbo", api_key="your-openai-key")
 
 # Generate dataset from 10-K
 dataset = generator.generate_from_10K(
