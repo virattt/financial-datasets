@@ -150,7 +150,7 @@ class DatasetGenerator:
 
         # Chunk the text to prevent exceeding the context window of models at the question generation step.
         chunk_size = kwargs.get("chunk_size", 1024)
-        chunk_overlap = kwargs.get("chunk_overlap", 128)
+        chunk_overlap = kwargs.get("chunk_overlap", 100)
 
         # Split by tokens
         token_splitter = TokenTextSplitter(
@@ -190,8 +190,8 @@ class DatasetGenerator:
         items = filing_parser.get_10K_items(ticker, year, item_names, sec_identity)
 
         # Chunk Items to prevent exceeding the context window of models at the question generation step.
-        chunk_size = 1024
-        chunk_overlap = 100
+        chunk_size = kwargs.get("chunk_size", 1024)
+        chunk_overlap = kwargs.get("chunk_overlap", 100)
         token_splitter = TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = []  # List to hold the chunked items
         for item in items:
@@ -230,8 +230,8 @@ class DatasetGenerator:
         items = filing_parser.get_10Q_items(ticker, year, quarter, item_names, sec_identity)
 
         # Chunk Items to prevent exceeding the context window of models at the question generation step.
-        chunk_size = 1024
-        chunk_overlap = 100
+        chunk_size = kwargs.get("chunk_size", 1024)
+        chunk_overlap = kwargs.get("chunk_overlap", 100)
         token_splitter = TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = []  # List to hold the chunked items
         for item in items:
