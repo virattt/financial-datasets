@@ -47,6 +47,7 @@ Bad generated examples:
 ]
 ```
 
-Objective: Ensure all questions and answers are accurate, self-contained, and relevant without relying on or implying the existence of any original document or text
+NEVER mention the words "document", "text", "layout", "filing", "text", "table" in your questions or answers.
+ALWAYS ensure all questions and answers are accurate, self-contained, and relevant without relying on or implying the existence of any original document or text
 while strictly avoiding any fabrication or speculation.
 """
